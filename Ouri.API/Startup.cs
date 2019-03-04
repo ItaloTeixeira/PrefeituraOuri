@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Ouri.API.Data;
+using Ouri.Repository;
 
 namespace Ouri.API
 {
@@ -27,9 +27,10 @@ namespace Ouri.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(
+            services.AddDbContext<OuriContext>(
                 x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"))
                 );
+            services.AddScoped<IOuriRepository, OuriRepository>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors(); 
         }

@@ -1,8 +1,48 @@
-
-<div *ngFor = "let escola of escolas">
-Nome: {{escola.nome}}
-<br>
-Cidade: {{escola.cidade}}
-<br>  
-<hr>  
+<div class="form-inline">
+   <label class="mr-2">Buscar:</label>  <div class="form-group mb-2">
+        <input type="text" class="form-control mr-2"
+         [(ngModel)] = "filtroLista" 
+         placeholder="a"
+         >
+      
+    </div>
 </div>
+<h3>Filtro: {{filtroLista}}</h3>
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            
+            <th>id</th>
+            <th>Nome</th>
+            <th>Cidade</th>
+            <th>Bairro</th>
+            <th>Rua</th>
+            <th>Diretor</th>
+            <th>Opções</th>
+            <!-- <th>Turmas</th>  -->
+        </tr>
+    </thead>
+    <tbody *ngIf="escolas && escolas.length">
+        <tr *ngFor = "let escola of escolasFiltradas">
+            <td>{{escola.escolaId}}</td>
+            <td>{{escola.nome}}</td>
+            <td>{{escola.cidade}}</td>
+            <td>{{escola.bairro}}</td>
+            <td>{{escola.rua}}</td>
+            <td>{{escola.diretor}}</td>
+           
+            <td></td>
+            <!-- <td></td> -->
+        </tr>
+    </tbody>
+    <tfoot *ngIf="!escolas.length">
+        <tr>
+            <td colspan="7" class="text-center">
+                <h4>
+                    Nenhum escola encontrada!
+                </h4>
+            </td>
+        </tr>
+    </tfoot>
+    
+</table>    

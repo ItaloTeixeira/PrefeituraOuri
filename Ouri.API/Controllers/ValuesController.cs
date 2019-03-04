@@ -5,20 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Ouri.API.Data;
+using Ouri.Repository;
 
-using Ouri.API.Model;
 
-namespace ProAgil.API.Controllers
+
+
+namespace Ouri.API.Controllers
 {
     [Route("ouri/[controller]")]
     [ApiController]
 
     public class ValuesController : ControllerBase
     {
-        public readonly DataContext _context;
+        public readonly OuriContext _context;
 
-        public ValuesController(DataContext context)
+        public ValuesController(OuriContext context)
         {
             _context = context;
 
@@ -52,7 +53,7 @@ namespace ProAgil.API.Controllers
         {
                 try
                 {
-                    var result = await _context.Escolas.FirstOrDefaultAsync(x=> x.EscolaId ==id);//retorna Escolas do DB
+                    var result = await _context.Escolas.FirstOrDefaultAsync(x=> x.Id ==id);//retorna Escolas do DB
                     return Ok(result); 
                 }
                 catch (System.Exception)
