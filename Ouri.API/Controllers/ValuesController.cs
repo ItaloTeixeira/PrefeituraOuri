@@ -12,7 +12,7 @@ using Ouri.Repository;
 
 namespace Ouri.API.Controllers
 {
-    [Route("ouri/[controller]")]
+    [Route("api/[controller]")]//
     [ApiController]
 
     public class ValuesController : ControllerBase

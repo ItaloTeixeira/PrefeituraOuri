@@ -1,14 +1,28 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { EscolaService } from '../_services/escola.service';
+import { Escola } from '../_models/Escola';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap';
+
 
 @Component({
   selector: 'app-escolas',
   templateUrl: './escolas.component.html',
-  styleUrls: ['./escolas.component.css']
+  styleUrls: ['./escolas.component.css'],
+  providers: [EscolaService]
+
 })
 export class EscolasComponent implements OnInit {
 
-  _filtroLista: string; 
+   escolasFiltradas: any = [];  
+   escolas: Escola[];
+   modalRef: BsModalRef; 
+  _filtroLista = ''; 
+
+  constructor(
+    private escolaService: EscolaService,
+    private modalService: BsModalService
+    ) { }
+
   //encapsulament
   get filtroLista(): string{
     return this._filtroLista;
@@ -17,22 +31,27 @@ export class EscolasComponent implements OnInit {
     this._filtroLista = value; 
     this.escolasFiltradas = this.filtroLista ? this.filtrarEscolas(this.filtroLista) : this.escolas;  
   }
-  escolasFiltradas: any = [];  
-  escolas: any = [];
-  constructor(private http: HttpClient) { }
+
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template); 
+  }
+  
 
   ngOnInit() { 
     this.getEscolas();  
   }
-  filtrarEscolas(filtrarPor: string): any {
+  filtrarEscolas(filtrarPor: string): Escola[] {
     filtrarPor = filtrarPor.toLocaleLowerCase(); 
     return this.escolas.filter(
       escola => escola.nome.toLocaleLowerCase().indexOf(filtrarPor) !== -1
     );
   }
   getEscolas(){
-    this.http.get('http://localhost:5000/ouri/values').subscribe(response => {
-    this.escolas = response;
+    this.escolaService.getAllEscola().subscribe(
+    (_escolas: Escola[]) => {this.escolas = _escolas;
+      this.escolasFiltradas = this.escolas;
+      console.log(_escolas); 
+
     }, error =>{
       console.log(error);  
     }

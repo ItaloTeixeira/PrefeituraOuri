@@ -4,7 +4,7 @@ namespace Ouri.Domain
 {
     public class Escola
     {
-        public int Id { get; set; }
+       
 
         public Escola(string nome, string cidade, string bairro, string rua, string diretor)
         {
@@ -15,6 +15,7 @@ namespace Ouri.Domain
             this.Diretor = diretor;
 
         }
+        public int Id { get; set; }
         public string Nome { get; set; }
 
         public string Cidade { get; set; }

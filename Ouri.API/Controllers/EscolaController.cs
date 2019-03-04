@@ -6,7 +6,7 @@ using Ouri.Repository;
 
 namespace Ouri.API.Controllers
 {
-    [Route("site/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class EscolaController : ControllerBase
     {
@@ -71,7 +71,7 @@ namespace Ouri.API.Controllers
                     _repo.Add(model); 
 
                     if(await _repo.SaveChangesAsync()){
-                        return Created($"/site/escola/{model.Id}", model); 
+                        return Created($"/api/escola/{model.Id}", model); 
 
                     }  
                 }
@@ -96,7 +96,7 @@ namespace Ouri.API.Controllers
                     _repo.Update(model); 
 
                     if(await _repo.SaveChangesAsync()){
-                        return Created($"/site/escola/{model.Id}", model); 
+                        return Created($"/api/escola/{model.Id}", model); 
                     }  
                 }
                 catch (System.Exception)

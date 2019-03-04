@@ -2,7 +2,7 @@
    <label class="mr-2">Buscar:</label>  <div class="form-group mb-2">
         <input type="text" class="form-control mr-2"
          [(ngModel)] = "filtroLista" 
-         placeholder="a"
+        
          >
       
     </div>
@@ -24,15 +24,34 @@
     </thead>
     <tbody *ngIf="escolas && escolas.length">
         <tr *ngFor = "let escola of escolasFiltradas">
-            <td>{{escola.escolaId}}</td>
+            <td>{{escola.id}}</td>
             <td>{{escola.nome}}</td>
             <td>{{escola.cidade}}</td>
             <td>{{escola.bairro}}</td>
             <td>{{escola.rua}}</td>
             <td>{{escola.diretor}}</td>
            
-            <td></td>
-            <!-- <td></td> -->
+            <!-- <td>
+                <div *ngIf="!escola.turmas.length">
+                    Não Informada
+                </div>
+                <div *ngIf="escola.turmas.length">
+                        {{escola.turmas[0].codigo} | uppercase}
+                </div>   
+            </td> -->
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-primary" 
+                    tooltip="Editar" (click)="openModal(template)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" tooltip="Apagar">
+                        <i class="fa fa-eraser"></i>
+                    </button>
+
+                </div>
+                
+            </td>
         </tr>
     </tbody>
     <tfoot *ngIf="!escolas.length">
@@ -46,3 +65,16 @@
     </tfoot>
     
 </table>    
+
+<ng-template #template>
+        <div class="modal-header">
+          <h4 class="modal-title pull-left">Modal</h4>
+          <button type="button" class="close pull-right" 
+          aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        This is a modal.
+      </div>
+</ng-template>
