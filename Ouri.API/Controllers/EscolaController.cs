@@ -1,6 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Ouri.API.Dtos;
 using Ouri.Domain;
 using Ouri.Repository;
 
@@ -11,127 +15,137 @@ namespace Ouri.API.Controllers
     public class EscolaController : ControllerBase
     {
         private readonly IOuriRepository _repo;
-        public EscolaController(IOuriRepository repo){
-             _repo = repo;
+        public readonly IMapper _mapper; 
+        public EscolaController(IOuriRepository repo, IMapper mapper)
+        {
+            _mapper = mapper;
+            _repo = repo;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-                try
-                {
-                    var results = await _repo.GetAllEscolaAsync(true);//retorna Escolas do DB
-                    return Ok(results); 
-                }
-                catch (System.Exception)
-                {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
-                    
-                }
-              
+            try
+            {
+                var escolas = await _repo.GetAllEscolaAsync(true);
+                var results = _mapper.Map<EscolaDto[]>(escolas);
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco de Dados Falhou{ex.Message}");
+
+            }
+
         }
-        [HttpGet( "{EscolaId}" )]
+        [HttpGet("{EscolaId}")]
         public async Task<IActionResult> Get(int EscolaId)
         {
-                try
-                {
-                    var results = await _repo.GetEscolaAsyncById(EscolaId, true);
-                    
-                    return Ok(results); 
-                }
-                catch (System.Exception)
-                {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
-                    
-                }
+            try
+            {
+                var escola = await _repo.GetEscolaAsyncById(EscolaId, true);
+                var results = _mapper.Map<EscolaDto>(escola);
+                return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+
+            }
         }
-        [HttpGet( "getByName/{name}" )]
+        [HttpGet("getByName/{name}")]
         public async Task<IActionResult> Get(string name)
         {
-                try
-                {
-                    var results = await _repo.GetAllEscolaAsyncByName(name, true);
-                    
-                    return Ok(results); 
-                }
-                catch (System.Exception)
-                {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
-                    
-                }
+            try
+            {
+                var escolas = await _repo.GetAllEscolaAsyncByName(name, true);
+                 var results = _mapper.Map<EscolaDto[]>(escolas);
+                return Ok(results);
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+
+            }
         }
 
         //POST
 
         [HttpPost]
-        public async Task<IActionResult> Post(Escola model)
+        public async Task<IActionResult> Post(EscolaDto model)
         {
-                try
+            try
+            {
+                var escola = _mapper.Map<Escola>(model);  
+                _repo.Add(escola);
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    _repo.Add(model); 
+                    return Created($"/api/escola/{model.Id}", model);
 
-                    if(await _repo.SaveChangesAsync()){
-                        return Created($"/api/escola/{model.Id}", model); 
-
-                    }  
                 }
-                catch (System.Exception)
-                {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
-                    
-                }
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
 
-                return BadRequest(); 
+            }
+
+            return BadRequest();
         }
         //PUT
         [HttpPut("{EscolaId}")]
         public async Task<IActionResult> Put(int EscolaId, Escola model)
         {
-                try
+            try
+            {
+                var escola = await _repo.GetEscolaAsyncById(EscolaId, false);
+                if (escola == null)
                 {
-                    var escola = await _repo.GetEscolaAsyncById(EscolaId, false);
-                    if(escola == null){
-                        return NotFound(); 
-                    }
-                    _repo.Update(model); 
-
-                    if(await _repo.SaveChangesAsync()){
-                        return Created($"/api/escola/{model.Id}", model); 
-                    }  
+                    return NotFound();
                 }
-                catch (System.Exception)
+                _repo.Update(model);
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");   
+                    return Created($"/api/escola/{model.Id}", model);
                 }
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+            }
 
-                return BadRequest(); 
+            return BadRequest();
         }
         //DELETE
         [HttpDelete("{EscolaId}")]
         public async Task<IActionResult> Delete(int EscolaId)
         {
-                try
+            try
+            {
+                var escola = await _repo.GetEscolaAsyncById(EscolaId, false);
+                if (escola == null)
                 {
-                    var escola = await _repo.GetEscolaAsyncById(EscolaId, false);
-                    if(escola == null){
-                        return NotFound(); 
-                    }
-                    _repo.Delete(escola); 
-
-                    if(await _repo.SaveChangesAsync()){
-                        return Ok(); 
-                    }  
+                    return NotFound();
                 }
-                catch (System.Exception)
+                _repo.Delete(escola);
+
+                if (await _repo.SaveChangesAsync())
                 {
-                    return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");   
+                    return Ok();
                 }
+            }
+            catch (System.Exception)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Banco de Dados Falhou");
+            }
 
-                return BadRequest(); 
+            return BadRequest();
         }
 
     }
-    
-     
-     
+
+
+
 }
