@@ -20,9 +20,15 @@ export class EscolaService {
    return this.http.get<Escola[]>(`${this.baseURL}/getByName/${nome}`);
  }
  getEscolaById(id: number): Observable<Escola>{
-   return this.http.get<Escola>(`${this.baseURL}/${id}`);;
+   return this.http.get<Escola>(`${this.baseURL}/${id}`);
  }
- 
- 
-
+postEscola(escola: Escola){
+  return this.http.post(this.baseURL, escola);
+}
+putEscola(escola: Escola){
+  return this.http.put(`${this.baseURL}/${escola.id}`, escola);
+}
+deleteEscola(id: number){
+    return this.http.delete(`${this.baseURL}/${id}`);
+}
 }

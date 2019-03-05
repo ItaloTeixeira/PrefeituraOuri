@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http'; 
-import { FormsModule} from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule} from '@angular/forms'; 
 import { BsDropdownModule,TooltipModule,ModalModule} from 'ngx-bootstrap';
 
 import { EscolaService } from './_services/escola.service';
@@ -26,7 +26,8 @@ import { NavComponent } from './nav/nav.component';
       ModalModule.forRoot(),
       AppRoutingModule,
       HttpClientModule,
-      FormsModule
+      FormsModule,
+      ReactiveFormsModule
    ],
    providers: [
       EscolaService

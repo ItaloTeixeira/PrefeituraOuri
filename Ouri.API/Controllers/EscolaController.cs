@@ -84,7 +84,7 @@ namespace Ouri.API.Controllers
                 return BadRequest(); 
         }
         //PUT
-        [HttpPut]
+        [HttpPut("{EscolaId}")]
         public async Task<IActionResult> Put(int EscolaId, Escola model)
         {
                 try
@@ -107,7 +107,7 @@ namespace Ouri.API.Controllers
                 return BadRequest(); 
         }
         //DELETE
-        [HttpDelete]
+        [HttpDelete("{EscolaId}")]
         public async Task<IActionResult> Delete(int EscolaId)
         {
                 try
