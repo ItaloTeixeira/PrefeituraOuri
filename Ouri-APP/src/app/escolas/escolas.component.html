@@ -1,186 +1,204 @@
-    <div class="d-flex">
-        <div class="form-inline mr-auto">
-            <div class="form-group mb-2">
-                <label class="mr-2">Filtro:</label>
-                <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista">
-            </div>
-        </div>
-        <div>
-            <button class="btn btn-outline-primary" (click)="novaEscola(template)">
-                <i class="fa fa-plus-circle"></i>&nbsp; 
-                Nova Escola
-            </button>
+<div class="d-flex">
+    <div class="form-inline mr-auto">
+        <div class="form-group mb-2">
+            <label class="mr-2">Filtro:</label>
+            <input type="text" class="form-control mr-2" placeholder="buscar" [(ngModel)]="filtroLista">
         </div>
     </div>
-    <!-- <h3>Filtro: {{filtroLista}}</h3> -->
-    <table class="table table-striped">
-        <thead class="thead-dark">
-            <tr>
-    
-                <th>id</th>
-                <th>Nome</th>
-                <th>Cidade</th>
-                <th>Bairro</th>
-                <th>Rua</th>
-                <th>Diretor</th>
-                <th>Opções</th>
-                <!-- <th>Turmas</th>  -->
-            </tr>
-        </thead>
-        <tbody *ngIf="escolas && escolas.length">
-            <tr *ngFor="let escola of escolasFiltradas">
-                <td>{{escola.id}}</td>
-                <td>{{escola.nome}}</td>
-                <td>{{escola.cidade}}</td>
-                <td>{{escola.bairro}}</td>
-                <td>{{escola.rua}}</td>
-                <td>{{escola.diretor}}</td>
-    
-                <!-- <td>
-                    <div *ngIf="!escola.turmas.length">
-                        Não Informada
-                    </div>
-                    <div *ngIf="escola.turmas.length">
-                            {{escola.turmas[0].codigo} | uppercase}
-                    </div>   
-                </td> -->
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-sm btn-success" 
-                        tooltip="Editar" (click)="editarEscola(escola, template)">
-                        <i class="fa fa-edit"></i>
-                      </button>
-                      <button class="btn btn-sm btn-danger" 
-                      tooltip="Excluir" (click)="excluirEscola(escola, confirm)">
-                        <i class="fa fa-eraser"></i>
-                      </button>
-                    </div>
-    
-                </td>
-            </tr>
-        </tbody>
-        <tfoot *ngIf="!escolas.length">
-            <tr>
-                <td colspan="7" class="text-center">
-                    <h4>
-                        Nenhum escola encontrada!
-                    </h4>
-                </td>
-            </tr>
-        </tfoot>
-    
-    </table>
-  
-    
-    <div bsModal #template="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro de Escolas</h4>
-                    <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+    <div>
+        <button class="btn btn-outline-primary" (click)="novaEscola(template)">
+            <i class="fa fa-plus-circle"></i>&nbsp; 
+            Nova Escola
+        </button>
+    </div>
+</div>
+<!-- <h3>Filtro: {{filtroLista}}</h3> -->
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+
+            <th>id</th>
+            <th>Nome</th>
+            <th>Cidade</th>
+            <th>Bairro</th>
+            <th>Rua</th>
+            <th>Diretor</th>
+            <th>Turmas</th>
+            <th>Id Turmas</th>
+            <th>Opções</th>
+           
+        </tr>
+    </thead>
+    <tbody *ngIf="escolas && escolas.length">
+        <tr *ngFor="let escola of escolasFiltradas">
+            <td>{{escola.id}}</td>
+            <td>{{escola.nome}}</td>
+            <td>{{escola.cidade}}</td>
+            <td>{{escola.bairro}}</td>
+            <td>{{escola.rua}}</td>
+            <td>{{escola.diretor}}</td>               
+            <td>
+                <div *ngIf="!escola.turmas.length">
+                    Não Informada
                 </div>
-                <div class="modal-body">
-                    <form [formGroup]="registerForm">
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label>Nome</label>
-                                <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('nome').errors && registerForm.get('nome').touched}" formControlName="nome" placeholder="Insira o Nome">
-                                <div *ngIf="registerForm.get('nome').hasError('required')
-                && registerForm.get('nome').touched" class="invalid-feedback">
-                                    Nome é obrigatório.
-                                </div>
-                                <div *ngIf="registerForm.get('nome').hasError('minlength')
-              && registerForm.get('nome').touched" class="invalid-feedback">
-                                    Nome deve ter no mínimo 4 Caracters.
-                                </div>
-                                <div *ngIf="registerForm.get('nome').hasError('maxlength')
+                <div *ngIf="escola.turmas.length">   
+                    <div *ngFor="let item of escola.turmas; let i = index">
+                        {{item.codigo}} 
+                      
+                     </div>      
+                 </div>   
+            </td>
+            <td>
+                <div *ngIf="!escola.turmas.length">
+                    Não Informada
+                </div>
+                <div *ngIf="escola.turmas.length">   
+                    <div *ngFor="let item of escola.turmas; let i = index">
+                        {{item.id}} 
+                      
+                     </div>      
+                 </div>   
+            </td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-success" 
+                    tooltip="Editar" (click)="editarEscola(escola, template)">
+                    <i class="fa fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-danger" 
+                  tooltip="Excluir" (click)="excluirEscola(escola, confirm)">
+                    <i class="fa fa-eraser"></i>
+                  </button>
+                </div>
+
+            </td>
+        </tr>
+    </tbody>
+    <tfoot *ngIf="!escolas.length">
+        <tr>
+            <td colspan="8" class="text-center">
+                <h4>
+                    Nenhum escola encontrada!
+                </h4>
+            </td>
+        </tr>
+    </tfoot>
+
+</table>
+
+
+
+
+<div bsModal #template="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 id="dialog-sizes-name1" class="modal-title pull-left">Cadastro de Escolas</h4>
+                <button type="button" class="close pull-right" (click)="template.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="registerForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-12">
+                            <label>Nome</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('nome').errors && registerForm.get('nome').touched}" formControlName="nome" placeholder="Insira o Nome">
+                            <div *ngIf="registerForm.get('nome').hasError('required')
             && registerForm.get('nome').touched" class="invalid-feedback">
-                                    Nome deve ter no máximo 50 Caracters.
-                                </div>
-    
+                                Nome é obrigatório.
                             </div>
+                            <div *ngIf="registerForm.get('nome').hasError('minlength')
+          && registerForm.get('nome').touched" class="invalid-feedback">
+                                Nome deve ter no mínimo 4 Caracters.
+                            </div>
+                            <div *ngIf="registerForm.get('nome').hasError('maxlength')
+        && registerForm.get('nome').touched" class="invalid-feedback">
+                                Nome deve ter no máximo 50 Caracters.
+                            </div>
+
                         </div>
-                            <div class="form-row">
-    
-                                <div class="form-group col-md-12">
-                                    <label>Diretor(a)</label>
-                                    <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('diretor').errors && registerForm.get('diretor').touched}" formControlName="diretor" placeholder="Insira o Diretor(a)">
-                                    <div *ngIf="registerForm.get('diretor').hasError('required')
-              && registerForm.get('diretor').touched" class="invalid-feedback">
-                                        Diretor(a) é obrigatório.
-                                    </div>
-                                   
-                                </div>
-                            </div>
-                        
+                    </div>
                         <div class="form-row">
-                            <div class="form-group col-md-8">
-                                <label>Cidade</label>
-                                <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('cidade').errors 
-          && registerForm.get('cidade').touched}" formControlName="cidade" placeholder="Insira a Cidade">
-                                <div *ngIf="registerForm.get('cidade').hasError('required')
-          && registerForm.get('cidade').touched" class="invalid-feedback">
-                                    Cidade é obrigatório.
+
+                            <div class="form-group col-md-12">
+                                <label>Diretor(a)</label>
+                                <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('diretor').errors && registerForm.get('diretor').touched}" formControlName="diretor" placeholder="Insira o Diretor(a)">
+                                <div *ngIf="registerForm.get('diretor').hasError('required')
+          && registerForm.get('diretor').touched" class="invalid-feedback">
+                                    Diretor(a) é obrigatório.
                                 </div>
+                               
                             </div>
-                            <div class="form-group col-md-8">
-                                <label>Bairro</label>
-                                <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('bairro').errors 
-            && registerForm.get('bairro').touched}" formControlName="bairro" placeholder="Insira o Bairro">
-                                <div *ngIf="registerForm.get('bairro').hasError('required')
-            && registerForm.get('bairro').touched" class="invalid-feedback">
-                                    Bairro é obrigatório.
-                                </div>
-                            </div>
-                            <div class="form-group col-md-8">
-                                <label>Rua</label>
-                                <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('rua').errors 
-            && registerForm.get('rua').touched}" formControlName="rua" placeholder="Insira a Rua">
-                                <div *ngIf="registerForm.get('rua').hasError('required')
-            && registerForm.get('rua').touched" class="invalid-feedback">
-                                    Rua é obrigatório.
-                                </div>
-                            </div>
-    
                         </div>
-    
-                    </form>
-                </div>
-                <div class="modal-footer d-flex">
-                    <button class="btn btn-secondary" (click)="template.hide()">
-                        Fechar
-                    </button>
-                    <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="salvarAlteracao(template)">
-                        Salvar Alterações
-                    </button>
-                </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-md-8">
+                            <label>Cidade</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('cidade').errors 
+      && registerForm.get('cidade').touched}" formControlName="cidade" placeholder="Insira a Cidade">
+                            <div *ngIf="registerForm.get('cidade').hasError('required')
+      && registerForm.get('cidade').touched" class="invalid-feedback">
+                                Cidade é obrigatório.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label>Bairro</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('bairro').errors 
+        && registerForm.get('bairro').touched}" formControlName="bairro" placeholder="Insira o Bairro">
+                            <div *ngIf="registerForm.get('bairro').hasError('required')
+        && registerForm.get('bairro').touched" class="invalid-feedback">
+                                Bairro é obrigatório.
+                            </div>
+                        </div>
+                        <div class="form-group col-md-8">
+                            <label>Rua</label>
+                            <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('rua').errors 
+        && registerForm.get('rua').touched}" formControlName="rua" placeholder="Insira a Rua">
+                            <div *ngIf="registerForm.get('rua').hasError('required')
+        && registerForm.get('rua').touched" class="invalid-feedback">
+                                Rua é obrigatório.
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer d-flex">
+                <button class="btn btn-secondary" (click)="template.hide()">
+                    Fechar
+                </button>
+                <button class="btn btn-primary ml-auto" [disabled]="!registerForm.valid" (click)="salvarAlteracao(template)">
+                    Salvar Alterações
+                </button>
             </div>
         </div>
     </div>
-    <div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
-            <div class="modal-dialog modal-sm">
-                <div class="modal-content">
-                  <div class="modal-header">
-                      <h4 class="modal-title pull-left">
-                        Deletando Escola
-                      </h4>
-                      <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                  </div>
-                  <div class="modal-body">
-                      <p>{{bodyDeletarEscola}}</p>
-                  </div>    
-                  <div class="modal-footer btn-group d-flex">      
-                      <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
-                        CENCELAR
-                      </button>
-                      <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
-                          DELETAR
-                      </button>
-                  </div>
-                </div>
+</div>
+<div bsModal #confirm="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="dialog-sizes-name1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h4 class="modal-title pull-left">
+                    Deletando Escola
+                  </h4>
+                  <button type="button" class="close pull-right" (click)="confirm.hide()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p>{{bodyDeletarEscola}}</p>
+              </div>    
+              <div class="modal-footer btn-group d-flex">      
+                  <button type="button" class="btn btn-outline-primary" (click)="confirm.hide()">
+                    CENCELAR
+                  </button>
+                  <button type="button" class="btn btn-outline-danger" (click)="confirmeDelete(confirm)">
+                      DELETAR
+                  </button>
+              </div>
             </div>
-          </div>
+        </div>
+      </div>
+      
