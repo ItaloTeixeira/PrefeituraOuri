@@ -17,7 +17,7 @@
     <thead class="thead-dark">
         <tr>
 
-            <th>id</th>
+            <!-- <th>id</th> -->
             <th>Nome</th>
             <th>Cidade</th>
             <th>Bairro</th>
@@ -31,7 +31,7 @@
     </thead>
     <tbody *ngIf="escolas && escolas.length">
         <tr *ngFor="let escola of escolasFiltradas">
-            <td>{{escola.id}}</td>
+            <!-- <td>{{escola.id}}</td> -->
             <td>{{escola.nome}}</td>
             <td>{{escola.cidade}}</td>
             <td>{{escola.bairro}}</td>
@@ -88,7 +88,7 @@
     </tbody>
     <tfoot *ngIf="!escolas.length">
         <tr>
-            <td colspan="7" class="text-center">
+            <td colspan="6" class="text-center">
                 <h4>
                     Nenhum escola encontrada!
                 </h4>
