@@ -10,8 +10,6 @@ import { template } from '@angular/core/src/render3';
   selector: 'app-escolas',
   templateUrl: './escolas.component.html',
   styleUrls: ['./escolas.component.css'],
-  // providers: [EscolaService]
-
 })
 export class EscolasComponent implements OnInit {
 
@@ -30,7 +28,6 @@ export class EscolasComponent implements OnInit {
     private fb: FormBuilder
     ) { }
 
-  //encapsulament
   get filtroLista(): string{
     return this._filtroLista;
   }
@@ -90,8 +87,7 @@ export class EscolasComponent implements OnInit {
       cidade: ['', Validators.required],
       bairro: ['', Validators.required],
       rua: ['', Validators.required],
-      diretor: ['', Validators.required]
-      
+      diretor: ['', Validators.required], 
     });
   }
   salvarAlteracao(template: any){

@@ -24,7 +24,7 @@
             <th>Rua</th>
             <th>Diretor</th>
             <th>Turmas</th>
-            <th>Id Turmas</th>
+            <!-- <th>Id Turmas</th> -->
             <th>Opções</th>
            
         </tr>
@@ -42,13 +42,25 @@
                     Não Informada
                 </div>
                 <div *ngIf="escola.turmas.length">   
-                    <div *ngFor="let item of escola.turmas; let i = index">
-                        {{item.codigo}} 
-                      
+                  
+                            <div class="btn-group" dropdown>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                                            aria-controls="dropdown-basic">
+                                      Turmas<span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                                        role="menu" aria-labelledby="button-basic">
+                                        <div *ngFor="let item of escola.turmas; let i = index">
+                                                <li role="menuitem"><a class="dropdown-item" href="#">{{item.codigo}}</a></li>
+                                        </div>
+                                     
+
+                                    </ul>
+                                  </div>       
                      </div>      
-                 </div>   
+                    
             </td>
-            <td>
+            <!-- <td>
                 <div *ngIf="!escola.turmas.length">
                     Não Informada
                 </div>
@@ -58,7 +70,7 @@
                       
                      </div>      
                  </div>   
-            </td>
+            </td> -->
             <td>
                 <div class="btn-group">
                     <button class="btn btn-sm btn-success" 
@@ -76,7 +88,7 @@
     </tbody>
     <tfoot *ngIf="!escolas.length">
         <tr>
-            <td colspan="8" class="text-center">
+            <td colspan="7" class="text-center">
                 <h4>
                     Nenhum escola encontrada!
                 </h4>
@@ -136,27 +148,27 @@
                         <div class="form-group col-md-8">
                             <label>Cidade</label>
                             <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('cidade').errors 
-      && registerForm.get('cidade').touched}" formControlName="cidade" placeholder="Insira a Cidade">
+                            && registerForm.get('cidade').touched}" formControlName="cidade" placeholder="Insira a Cidade">
                             <div *ngIf="registerForm.get('cidade').hasError('required')
-      && registerForm.get('cidade').touched" class="invalid-feedback">
+                            && registerForm.get('cidade').touched" class="invalid-feedback">
                                 Cidade é obrigatório.
                             </div>
                         </div>
                         <div class="form-group col-md-8">
                             <label>Bairro</label>
                             <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('bairro').errors 
-        && registerForm.get('bairro').touched}" formControlName="bairro" placeholder="Insira o Bairro">
+                            && registerForm.get('bairro').touched}" formControlName="bairro" placeholder="Insira o Bairro">
                             <div *ngIf="registerForm.get('bairro').hasError('required')
-        && registerForm.get('bairro').touched" class="invalid-feedback">
+                            && registerForm.get('bairro').touched" class="invalid-feedback">
                                 Bairro é obrigatório.
                             </div>
                         </div>
                         <div class="form-group col-md-8">
                             <label>Rua</label>
                             <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('rua').errors 
-        && registerForm.get('rua').touched}" formControlName="rua" placeholder="Insira a Rua">
+                            && registerForm.get('rua').touched}" formControlName="rua" placeholder="Insira a Rua">
                             <div *ngIf="registerForm.get('rua').hasError('required')
-        && registerForm.get('rua').touched" class="invalid-feedback">
+                             && registerForm.get('rua').touched" class="invalid-feedback">
                                 Rua é obrigatório.
                             </div>
                         </div>
